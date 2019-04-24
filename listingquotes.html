@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>listing</title>
+    <style>
+        p {
+            background-color: #fffefe;
+            border: 2px solid rgb(241, 8, 20);
+            opacity: 1;
+            margin-left: 300px;
+            width: 40em;
+            height: 8em;
+            font-size: 18px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+            font-style: italic;
+            font-weight: 100%;
+            color: slategray;
+            border-left: 0ch;
+            border-right: 0ch;
+
+        }
+
+        button {
+
+            /* width: 15px;
+            height: 10px; */
+            float: right
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        <center>Quotifiy</center>
+    </h1>
+    <div id="alter">
+
+    </div>
+    <script>
+        const getAll = JSON.parse(localStorage.getItem('total'))
+        const getDiv = document.getElementById('alter')
+        getAll.forEach(function (ele) {
+            const p = document.createElement('p')
+            const remove = document.createElement('button')
+            const update = document.createElement('button')
+            p.innerText = ele.quote + '\n' + ele.author + '\n'
+            remove.innerText = 'delete'
+            update.innerText = 'update'
+            remove.addEventListener('click', function () {
+                //let b = ele.quote + '\n' + ele.author
+                //console.log(p.parentElement);
+                p.parentElement.removeChild(p)
+
+                allQuotes = getAll.filter(quote => quote.quote != ele.quote)
+                localStorage.setItem('total', JSON.stringify(allQuotes))
+                // console.log('removed', ele)
+
+            })
+            update.addEventListener('click', function () {
+                const area = document.createElement('textarea')
+                const name = document.createElement('input')
+                name.setAttribute("type", "text")
+                area.value = ele.quote
+                name.value = ele.author
+                update.addEventListener('click', function () {
+                    if (area.value != ele.quote) {
+                        p.innerText = area.value + '\n' + ele.author + '\n'
+                        ele.quote = area.value
+                        // allQuotes = getAll.filter(quote => console.log(quote.quote != ele.quote))
+                        localStorage.setItem('total1', JSON.stringify(ele.quote))
+                        console.log(ele.quote)
+
+                    }
+                })
+                p.appendChild(area)
+                p.appendChild(name)
+            })
+            p.appendChild(update)
+            p.appendChild(remove)
+            getDiv.appendChild(p)
+        })
+    </script>
+</body>
+
+</html>

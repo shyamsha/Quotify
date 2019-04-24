@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Quotifiy</title>
+		<style>
+			#group {
+				background-color: #fffefe;
+				border: 2px solid rgb(241, 8, 20);
+				opacity: 1;
+				/* width:40em; */
+				height: 8em;
+				font-size: 18px;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+					Oxygen, Ubuntu, Cantarell;
+				font-style: italic;
+				font-weight: 100%;
+				color: slategray;
+				border-left: 0px;
+				border-right: 0px;
+			}
+			#SaveLocal {
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>
+			<center>Quotifiy</center>
+		</h1>
+		<center>
+			<div id="group">
+				<p id="qoute">click to button to get quote</p>
+				<p id="author"></p>
+			</div>
+		</center>
+		<input type=" button" value="Save" id="SaveLocal" /><br />
+		<center><input type="button" value="Get Anothor" id="get" /></center>
+		<script>
+			const getId = document.getElementById("get");
+			const para = document.getElementById("qoute");
+			const para1 = document.getElementById("author");
+			const save = document.getElementById("SaveLocal");
+			save.disabled = true;
+			let array = [];
+			let str;
+			let quotes;
+
+			function load() {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "http://quotes.stormconsultancy.co.uk/random.json");
+				xhr.send();
+				xhr.onload = function() {
+					const quote = JSON.parse(xhr.responseText);
+					para.innerText = `"${quote.quote}"`;
+					para1.innerText = `~${quote.author}`;
+				};
+			}
+			window.onload = load;
+			getId.addEventListener("click", function() {
+				if (getId.click) {
+					save.value = "Save2Local";
+					save.disabled = false;
+				}
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "http://quotes.stormconsultancy.co.uk/random.json");
+				xhr.send();
+				xhr.onload = function() {
+					const quote = JSON.parse(xhr.responseText);
+					para.innerText = `"${quote.quote}"`;
+					para1.innerText = `~${quote.author}`;
+				};
+			});
+			save.addEventListener("click", function() {
+				//quotes = para.innerText
+				quotes = {
+					quote: para.innerText,
+					author: para1.innerText
+				};
+				array.push(quotes);
+				str = JSON.stringify(array);
+				localStorage.setItem("quotation", str);
+				quotes = localStorage.getItem("quotation");
+				if (save.click) {
+					save.value = "saved";
+					save.disabled = true;
+				}
+			});
+			quotes = para.innerText;
+			quotes = localStorage.getItem("quotation");
+			p = localStorage.getItem("quotation");
+			// let obj = localStorage.getItem('quotation')
+			// const input = JSON.parse(obj)
+		</script>
+	</body>
+</html>
